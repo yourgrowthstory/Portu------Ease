@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <title>Português Learner – Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Font (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Pastel palette */
+      --bg-gradient-1: #fdf5ff;
+      --bg-gradient-2: #f3fbff;
+      --card-pink: #ffd6e8;
+      --card-mint: #d8f8e5;
+      --card-lilac: #e4ddff;
+      --card-yellow: #fff4c7;
+      --accent-1: #ff9fb8;
+      --accent-2: #8fd3c6;
+      --accent-3: #9a9cff;
+      --accent-4: #ffde89;
+      --text-dark: #273043;
+      --text-soft: #4f5b73;
+      --white: #ffffff;
+      --shadow-soft: 0 12px 35px rgba(0, 0, 0, 0.08);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --transition-fast: 0.2s ease-out;
+      --transition-med: 0.35s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, var(--bg-gradient-1), var(--bg-gradient-2));
+      min-height: 100vh;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .background-blobs {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blob {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.6;
+      mix-blend-mode: screen;
+      animation: float 18s infinite alternate ease-in-out;
+    }
+
+    .blob.blob-1 {
+      background: #ffd6e8;
+      top: -80px;
+      left: -40px;
+    }
+
+    .blob.blob-2 {
+      background: #c2f1de;
+      top: 50%;
+      right: -120px;
+      animation-delay: -4s;
+    }
+
+    .blob.blob-3 {
+      background: #ded7ff;
+      bottom: -120px;
+      left: 10%;
+      animation-delay: -8s;
+    }
+
+    @keyframes float {
+      0%   { transform: translate3d(0, 0, 0) scale(1); }
+      50%  { transform: translate3d(20px, -20px, 0) scale(1.05); }
+      100% { transform: translate3d(-10px, 10px, 0) scale(1.02); }
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .card-shell {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      animation: fadeUp 0.6s ease-out forwards;
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffbdd2, #ffe9a3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .brand-text-main {
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    .brand-text-sub {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .tag-beginner {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      border: 1px solid rgba(0,0,0,0.05);
+      background: linear-gradient(135deg, #d7f7e3, #f7fff4);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #55c49f;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      header {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .card-shell {
+        padding: 20px;
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(120deg, #ff9fb8, #ffa6a6, #ffc78d);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      max-width: 440px;
+      margin-bottom: 18px;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px dashed rgba(0, 0, 0, 0.06);
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.8);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .btn-primary {
+      border: none;
+      cursor: pointer;
+      border-radius: var(--radius-pill);
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff9fb8, #ffc78d);
+      color: var(--text-dark);
+      box-shadow: 0 10px 22px rgba(255, 163, 179, 0.45);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 12px 28px rgba(255, 163, 179, 0.6);
+    }
+
+    .btn-ghost {
+      border-radius: var(--radius-pill);
+      padding: 9px 16px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      background: rgba(255,255,255,0.85);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,1);
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-note-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff9fb8;
+    }
+
+    .hero-card {
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      background: radial-gradient(circle at top left, #ffe6f0, #fffaf2);
+      position: relative;
+      overflow: hidden;
+      min-height: 180px;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      right: -60px;
+      top: -30px;
+      animation: spinSlow 22s linear infinite;
+    }
+
+    @keyframes spinSlow {
+      to {
+        transform: rotate(1turn);
+      }
+    }
+
+    .hero-card-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hero-card-badge {
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(0,0,0,0.04);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sparkle {
+      font-size: 1rem;
+    }
+
+    .hero-card-main-text {
+      font-size: 0.9rem;
+      max-width: 270px;
+      color: #524066;
+      margin-bottom: 10px;
+    }
+
+    .hero-characters-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      margin-top: 18px;
+    }
+
+    .hero-character {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+      animation: bob 2.4s ease-in-out infinite;
+    }
+
+    .hero-character:nth-child(2) {
+      animation-delay: -0.5s;
+    }
+    .hero-character:nth-child(3) {
+      animation-delay: -1s;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* LEVEL STRIP */
+
+    .levels-section {
+      margin-top: 8px;
+      margin-bottom: 18px;
+    }
+
+    .levels-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .levels-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .levels-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+
+    .level-pill {
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.04);
+      background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(255,255,255,0.9));
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-med), box-shadow var(--transition-med);
+    }
+
+    .level-pill::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+      background: radial-gradient(circle at top left, #ffe9f3, transparent 60%),
+                  radial-gradient(circle at bottom right, #d7f5ec, transparent 60%);
+      pointer-events: none;
+    }
+
+    .level-pill:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.09);
+    }
+
+    .level-pill-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.6;
+    }
+
+    .level-pill-main {
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .level-pill-age {
+      font-size: 0.78rem;
+      opacity: 0.65;
+    }
+
+    .level-pill-tag {
+      margin-top: 2px;
+      font-size: 0.78rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(240, 249, 255, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .level-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #9a9cff;
+    }
+
+    /* LEARNING CARDS */
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .learning-section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .learning-section-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .learning-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .learning-card {
+      border-radius: 18px;
+      padding: 12px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+      transition: transform var(--transition-med), box-shadow var(--transition-med);
+    }
+
+    .learning-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+
+    .learning-card[data-type="preterito"] {
+      background: linear-gradient(135deg, var(--card-mint), #f3fff7);
+    }
+
+    .learning-card[data-type="imperativo"] {
+      background: linear-gradient(135deg, var(--card-lilac), #f5f1ff);
+    }
+
+    .learning-card[data-type="vocab"] {
+      background: linear-gradient(135deg, var(--card-yellow), #fffaf0);
+    }
+
+    .learning-card[data-type="dialogos"] {
+      background: linear-gradient(135deg, var(--card-pink), #fff1f6);
+    }
+
+    .learning-tag {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+
+    .learning-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .learning-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .learning-emoji {
+      font-size: 1.45rem;
+    }
+
+    .learning-text {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .learning-example {
+      font-size: 0.75rem;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    .learning-example span {
+      font-weight: 700;
+    }
+
+    /* SIDE PANEL */
+
+    .side-panel {
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      background: linear-gradient(135deg, rgba(216,248,229,0.95), rgba(254,247,222,0.95));
+      min-height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.45;
+      background-image: radial-gradient(circle at 0 0, rgba(255,255,255,0.7) 0, transparent 55%),
+                        radial-gradient(circle at 100% 100%, rgba(255,255,255,0.7) 0, transparent 55%);
+      pointer-events: none;
+    }
+
+    .side-panel-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .side-panel-text {
+      font-size: 0.78rem;
+      color: #44614d;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .side-panel-list {
+      font-size: 0.78rem;
+      list-style: none;
+      display: grid;
+      gap: 4px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .side-panel-list li::before {
+      content: "•";
+      margin-right: 5px;
+    }
+
+    .side-panel-footer {
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .side-panel-pill {
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(0,0,0,0.05);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .side-panel-pill span {
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 18px;
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <main class="page">
+    <section class="card-shell">
+      <!-- HEADER -->
+      <header>
+        <div class="brand">
+          <div class="logo-circle">🇵🇹</div>
+          <div>
+            <div class="brand-text-main">Portuguese Learner</div>
+            <div class="brand-text-sub">Jogos simples. Português real.</div>
+          </div>
+        </div>
+        <div class="tag-beginner">
+          <span class="tag-dot"></span>
+          <span>Iniciante (A0–A1) pronto para jogar</span>
+        </div>
+      </header>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div>
+          <h1 class="hero-title">
+            Torna o português um
+            <span class="hero-highlight">jogo fácil e colorido</span>.
+          </h1>
+          <p class="hero-subtitle">
+            Escolhe a tua idade, começa no nível <strong>iniciante</strong> e pratica
+            <strong>pretérito</strong>, <strong>imperativo</strong> e vocabulário do dia a dia com mini-jogos.
+          </p>
+
+          <div class="hero-pill-row">
+            <div class="pill">🧒 7–9 anos: frases simples &amp; comandos</div>
+            <div class="pill">👦 10–12 anos: diálogos e jogos rápidos</div>
+            <div class="pill">🧑 13+ &amp; adultos: gramática leve + prática</div>
+          </div>
+
+          <div class="hero-cta-row">
+            <button class="btn-primary" onclick="scrollToLevels()">
+              Começar agora
+              <span>▶</span>
+            </button>
+            <button class="btn-ghost" onclick="scrollToGrammar()">
+              Ver jogos de gramática
+            </button>
+          </div>
+
+          <div class="hero-note">
+            <div class="hero-note-dot"></div>
+            <span>Sem ficheiros chatos – só jogos curtos que cabem num intervalo ☕</span>
+          </div>
+        </div>
+
+        <!-- HERO SIDE CARD -->
+        <div class="hero-card">
+          <div class="hero-card-badge-row">
+            <div class="hero-card-badge">
+              <span class="sparkle">✨</span>
+              <span>Pronto para iniciantes</span>
+            </div>
+            <div class="hero-card-badge">
+              <span>⏱️</span>
+              <span>Lições de 5 minutos</span>
+            </div>
+          </div>
+          <p class="hero-card-main-text">
+            Hoje podes praticar:
+          </p>
+          <ul class="side-panel-list" style="position:relative;z-index:1;margin-bottom:6px;">
+            <li><strong>Pretérito perfeito:</strong> “Ontem <u>comi</u> um pastel de nata.”</li>
+            <li><strong>Imperativo:</strong> “<u>Fala</u> mais devagar, por favor.”</li>
+            <li><strong>Vocabulário de café:</strong> “um galão, por favor!”</li>
+          </ul>
+          <div class="hero-characters-row">
+            <div class="hero-character">🧁</div>
+            <div class="hero-character">📚</div>
+            <div class="hero-character">🎮</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVELS -->
+      <section class="levels-section" id="levels-section">
+        <div class="levels-title-row">
+          <h2 class="levels-title">Escolhe a idade e o nível</h2>
+        </div>
+
+        <div class="levels-strip">
+          <div class="level-pill" data-age="7-9" onclick="highlightLevel(this)">
+            <div class="level-pill-label">Idade</div>
+            <div class="level-pill-main">
+              <span>7–9 anos</span>
+              <span>🧸</span>
+            </div>
+            <div class="level-pill-age">Palavras simples, jogos com imagens</div>
+            <div class="level-pill-tag">
+              <span class="level-pill-dot"></span>
+              <span>Iniciante absoluto</span>
+            </div>
+          </div>
+
+          <div class="level-pill" data-age="10-12" onclick="highlightLevel(this)">
+            <div class="level-pill-label">Idade</div>
+            <div class="level-pill-main">
+              <span>10–12 anos</span>
+              <span>🎯</span>
+            </div>
+            <div class="level-pill-age">Frases completas e primeiras regras</div>
+            <div class="level-pill-tag">
+              <span class="level-pill-dot"></span>
+              <span>Pretérito &amp; imperativo</span>
+            </div>
+          </div>
+
+          <div class="level-pill" data-age="13-15" onclick="highlightLevel(this)">
+            <div class="level-pill-label">Idade</div>
+            <div class="level-pill-main">
+              <span>13–15 anos</span>
+              <span>⚡</span>
+            </div>
+            <div class="level-pill-age">Diálogos, verbos e “mini missões”</div>
+            <div class="level-pill-tag">
+              <span class="level-pill-dot"></span>
+              <span>Iniciante + revisão</span>
+            </div>
+          </div>
+
+          <div class="level-pill" data-age="adulto" onclick="highlightLevel(this)">
+            <div class="level-pill-label">Nível</div>
+            <div class="level-pill-main">
+              <span>Iniciante (A0–A1)</span>
+              <span>☕</span>
+            </div>
+            <div class="level-pill-age">Frases para a vida real em Portugal</div>
+            <div class="level-pill-tag">
+              <span class="level-pill-dot"></span>
+              <span>Adultos bem-vindos</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAIN GRID -->
+      <section class="grid">
+        <!-- LEFT: GRAMMAR/VOCAB CARDS -->
+        <div id="grammar-section">
+          <h3 class="learning-section-title">O que queres praticar hoje?</h3>
+          <p class="learning-section-subtitle">
+            Escolhe um bloco para abrir o jogo correspondente. Mantemos tudo no nível
+            <strong>iniciante</strong>, com muito apoio visual.
+          </p>
+
+          <div class="learning-grid">
+            <!-- Pretérito -->
+            <article class="learning-card" data-type="preterito" onclick="openGame('preterito')">
+              <div class="learning-tag">Gramática suave</div>
+              <div class="learning-title-row">
+                <div class="learning-title">Pretérito perfeito</div>
+                <div class="learning-emoji">⏳</div>
+              </div>
+              <p class="learning-text">
+                Fala sobre ontem, semana passada e “coisas que já fizeste” com frases simples.
+              </p>
+              <p class="learning-example">
+                Ex.: <span>Ontem comi</span> pizza. / <span>Já fui</span> a Lisboa.
+              </p>
+            </article>
+
+            <!-- Imperativo -->
+            <article class="learning-card" data-type="imperativo" onclick="openGame('imperativo')">
+              <div class="learning-tag">Comandos divertidos</div>
+              <div class="learning-title-row">
+                <div class="learning-title">Imperativo</div>
+                <div class="learning-emoji">🗣️</div>
+              </div>
+              <p class="learning-text">
+                Aprende a dar instruções educadas como um português: pedir, convidar, sugerir.
+              </p>
+              <p class="learning-example">
+                Ex.: <span>Vem</span> jogar comigo! / <span>Fala</span> mais devagar, por favor.
+              </p>
+            </article>
+
+            <!-- Vocabulário -->
+            <article class="learning-card" data-type="vocab" onclick="openGame('vocab')">
+              <div class="learning-tag">Palavras do dia a dia</div>
+              <div class="learning-title-row">
+                <div class="learning-title">Vocabulário pastelaria</div>
+                <div class="learning-emoji">🥐</div>
+              </div>
+              <p class="learning-text">
+                Aprende palavras para pedir comida e bebida – perfeito para ir ao café.
+              </p>
+              <p class="learning-example">
+                Ex.: <span>Queria um pastel de nata e um sumo de laranja.</span>
+              </p>
+            </article>
+
+            <!-- Diálogos -->
+            <article class="learning-card" data-type="dialogos" onclick="openGame('dialogos')">
+              <div class="learning-tag">Diálogos</div>
+              <div class="learning-title-row">
+                <div class="learning-title">Mini conversas</div>
+                <div class="learning-emoji">💬</div>
+              </div>
+              <p class="learning-text">
+                Pratica diálogos curtos com áudio e escolhas múltiplas, sempre no nível iniciante.
+              </p>
+              <p class="learning-example">
+                Ex.: “Olá! Tudo bem?” – <span>“Estou bem, obrigado!”</span>
+              </p>
+            </article>
+          </div>
+        </div>
+
+        <!-- RIGHT: SIDE PANEL -->
+        <aside class="side-panel">
+          <h3 class="side-panel-title">Como funciona?</h3>
+          <p class="side-panel-text">
+            Cada jogo foca numa coisa pequena: um tempo verbal, um tipo de frase ou um grupo de palavras.
+          </p>
+          <ul class="side-panel-list">
+            <li>1–3 minutos por jogo</li>
+            <li>Feedback imediato (“Acertaste!”, “Tenta outra vez”)</li>
+            <li>Frases curtas, temas do dia a dia</li>
+          </ul>
+          <div class="side-panel-footer">
+            <div class="side-panel-pill">
+              <span>🎲</span>
+              <span>Modo iniciante ligado</span>
+            </div>
+            <span>Escolhe primeiro a idade e depois o jogo.</span>
+          </div>
+        </aside>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <span>Feito para principiantes de português – crianças, teens e adultos curiosos.</span>
+        <span class="footer-link" onclick="scrollToTop()">Voltar ao topo ↑</span>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    function scrollToLevels() {
+      document.getElementById("levels-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function scrollToGrammar() {
+      document.getElementById("grammar-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function highlightLevel(el) {
+      document.querySelectorAll(".level-pill").forEach(pill => {
+        pill.style.outline = "none";
+        pill.style.outlineOffset = "0";
+      });
+      el.style.outline = "2px solid rgba(154,156,255,0.9)";
+      el.style.outlineOffset = "2px";
+    }
+
+    // Placeholder: connect these to your existing game pages/routes
+    function openGame(type) {
+      switch (type) {
+        case "preterito":
+          // window.location.href = "jogo-preterito.html";
+          alert("Aqui vais abrir o jogo do Pretérito Perfeito. Liga isto à tua página quando estiver pronta. 😊");
+          break;
+        case "imperativo":
+          // window.location.href = "jogo-imperativo.html";
+          alert("Aqui vais abrir o jogo do Imperativo.");
+          break;
+        case "vocab":
+          // window.location.href = "jogo-vocabulario.html";
+          alert("Aqui vais abrir o jogo de Vocabulário da pastelaria.");
+          break;
+        case "dialogos":
+          // window.location.href = "jogo-dialogos.html";
+          alert("Aqui vais abrir o jogo de Mini Diálogos.");
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
