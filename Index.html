@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Portu-Ease • Jogos de Português</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg1: #fdf5ff;
+      --bg2: #f3fbff;
+      --card: #ffffff;
+      --accent-pink: #ffb6d9;
+      --accent-mint: #b5f5dd;
+      --accent-lilac: #d9d2ff;
+      --accent-yellow: #ffeaa7;
+      --text-dark: #263143;
+      --text-soft: #5d6a80;
+      --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --radius-lg: 20px;
+      --radius-xl: 26px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, var(--bg1), var(--bg2));
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      color: var(--text-dark);
+    }
+
+    /* BACKGROUND BLOBS (LIGHT) */
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blob {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      filter: blur(35px);
+      opacity: 0.5;
+      mix-blend-mode: screen;
+      animation: float 16s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      background: #ffd6e8;
+      top: -60px;
+      left: -40px;
+    }
+
+    .blob-2 {
+      background: #c2f1de;
+      bottom: -80px;
+      right: -40px;
+      animation-delay: -4s;
+    }
+
+    .blob-3 {
+      background: #ded7ff;
+      top: 40%;
+      left: 70%;
+      animation-delay: -8s;
+    }
+
+    @keyframes float {
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(15px, -15px, 0); }
+      100% { transform: translate3d(-10px, 10px, 0); }
+    }
+
+    /* PAGE WRAPPER */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .shell {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffbdd2, #ffe9a3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .tag {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #d7f7e3, #f7fff4);
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      white-space: nowrap;
+    }
+
+    .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #20b486;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .shell {
+        padding: 16px;
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(1.8rem, 3vw, 2.3rem);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(120deg, #ff9fb8, #ffa6a6, #ffc78d);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+      max-width: 440px;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px dashed rgba(0, 0, 0, 0.07);
+      background: rgba(255, 255, 255, 0.9);
+      font-size: 0.78rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .btn-main {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff9fb8, #ffc78d);
+      box-shadow: 0 8px 20px rgba(255, 163, 179, 0.6);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 11px 26px rgba(255, 163, 179, 0.75);
+    }
+
+    .btn-secondary {
+      border-radius: 999px;
+      padding: 9px 15px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(255, 255, 255, 0.95);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease-out, transform 0.2s ease-out;
+    }
+
+    .btn-secondary:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .hero-card {
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      min-height: 150px;
+      backgro
